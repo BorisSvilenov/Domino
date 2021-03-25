@@ -4,6 +4,9 @@ public class DominoTile {
 	private int left;
 	private int right;
 	
+	final static int LEFT=0;
+	final static int RIGHT=1;
+	
 	public DominoTile() {
 		left=0;
 		right=0;
@@ -39,6 +42,40 @@ public class DominoTile {
 		return IsEqual;
 	}
 	
+	public boolean isPossible(DominoTile tile , int side)
+	{
+		if(tile != null)
+		{
+			if(side == RIGHT)
+			{
+				if(this.right == tile.getLeft())
+				{
+					return true;
+				}
+				
+				else if(this.right == tile.getRight())
+				{
+					tile.swap();
+					return true;
+				}
+			}
+			
+			else if (side == LEFT)
+			{
+				if(this.left == tile.getRight())
+				{
+					return true;
+				}
+				else if(this.left == tile.getLeft())
+				{
+					tile.swap();
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
 	public char[][] createDomino(int left, int right) {
 		char  domino[][] = new char[3][6];
 		if(left==0) {
