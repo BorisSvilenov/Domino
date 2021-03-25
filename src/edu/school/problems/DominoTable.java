@@ -1,15 +1,15 @@
 package edu.school.problems;
 
 public class DominoTable {
-	private DominoTile[] dominoTable;
-	private int left;
-	private int right;
+	private Deck<DominoTile> dominoTable;
 	private int tilesIndex=0;
 	private final int Tiles=28;
 	private TableEventListener listener;
+	final static int LEFT=0;
+	final static int RIGHT=1;
 	
 	public DominoTable() {
-		dominoTable=new DominoTile[Tiles];
+		dominoTable=new Deck<>();
 	}
 	public void setTiles(int tilesValue) {
 		if(tilesValue>=0 && tilesValue<=28) {
@@ -17,57 +17,52 @@ public class DominoTable {
 		}
 		
 	}
+	public Deck<DominoTile> getDominoTile()
+	{
+		return this.dominoTable;
+	}
 	public boolean addLeft(DominoTile d1) {
-		boolean result=false;
 		
 		if(tilesIndex==Tiles-1) {
-			return result;
-		} else {
-			for(int i=1;i<tilesIndex-1;i++) {
-				DominoTile temp=dominoTable[i+1];
-				dominoTable[i+1]=dominoTable[i];
-				dominoTable[i]=temp;
-			}
-			dominoTable[0]=d1;
-			tilesIndex++;
-			if(d1.equals(dominoTable[1])==true) {
-				result=true;
-			}else {
-				result=false;
-			}
+			return false;
+		} 
+		else if(dominoTable.isEmpty()) 
+		{
+			dominoTable.addLeft(d1);
+			return true;
 		}
-		
-		return result;
+		else if(dominoTable.getLeft().isPossible(d1, LEFT) == true) 
+		{
+			dominoTable.addLeft(d1);
+			ChangeListener();
+			return true;
+		}
+		return false;
 	}
 	public boolean addRight(DominoTile d1) {
-		boolean result=false;
-		
 		if(tilesIndex==Tiles-1) {
-			return result;
-		} else {
-			for(int i=tilesIndex;i>1;i--) {
-				DominoTile temp=dominoTable[i-1];
-				dominoTable[i-1]=dominoTable[i];
-				dominoTable[i]=temp;
-			}
-			dominoTable[0]=d1;
-			tilesIndex++;
-			if(d1.equals(dominoTable[1])==true) {
-				result=true;
-			}else {
-				result=false;
-			}
+			return false;
+		} 
+		else if(dominoTable.isEmpty()) 
+		{
+			dominoTable.addRight(d1);
+			return true;
 		}
-		
-		return result;
+		else if(dominoTable.getLeft().isPossible(d1, RIGHT) == true) 
+		{
+			dominoTable.addRight(d1);
+			ChangeListener();
+			return true;
+		}
+		return false;
 	}
 	public void print() {
-		for(int i=0;i<Tiles;i++) {
-			if(dominoTable[i]!=null) {
-			System.out.println(dominoTable[i].toString());
-			}else {
-				break;
-			}
+		Iterator<DominoTile> it = dominoTable.getIterator();
+		
+		while(it.hasNext())
+		{
+			DominoTile t = it.next();
+			System.out.print(t.toString());
 		}
 	}
 	

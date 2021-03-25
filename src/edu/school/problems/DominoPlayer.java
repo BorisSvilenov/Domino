@@ -2,7 +2,7 @@ package edu.school.problems;
 
 public class DominoPlayer {
 	private String nickname;
-	private DominoTile[] tiles;
+	private Deck<DominoTile> tiles;
 	private int tilesInHands;
 	private DominoTable table;
 	
@@ -14,10 +14,10 @@ public class DominoPlayer {
 	public String getNickname() {
 		return this.nickname;
 	}
-	public void setTiles(DominoTile[] tiles) {
+	public void setTiles(Deck<DominoTile> tiles) {
 		this.tiles=tiles;
 	}
-	public DominoTile[] getDominoTiles() {
+	public Deck<DominoTile> getDominoTiles() {
 		return this.tiles;
 	}
 	public void setTilesInHands(int tilesInHands) {
@@ -33,33 +33,19 @@ public class DominoPlayer {
 		return this.table;
 	}
 	
-	public DominoPlayer(String nickname,DominoTile[] tiles, int tilesInHands,DominoTable table) {
+	public DominoPlayer(String nickname,Deck<DominoTile> tiles, int tilesInHands,DominoTable table) {
 		setNickname(nickname);
 		setTiles(tiles);
 		setTilesInHands(tilesInHands);
 	    setTable(table);
 	}
 	
-	private int getTileIndex(DominoTile t) {
-		for(int i=0;i<tiles.length && tiles[i]!=null;i++) {
-			if(tiles[i]==t) {
-				return i;
-			}
-		}
-		return -1;
-		
-	}
 	public void addTileAtLeft(DominoTile t) {
-		if(getTileIndex(t)>0 && table.addLeft(t)) {
-			tiles[getTileIndex(t)]=null;
-			this.tilesInHands--;
-		}
+		table.addLeft(t);
+		
    }
     public void addTileAtRight(DominoTile t) {
-	    if(getTileIndex(t)>0 && table.addRight(t)) {
-		   tiles[getTileIndex(t)]=null;
-		   this.tilesInHands--;
-	    }
+	    
    }
 	
 
